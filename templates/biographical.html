@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static "js/bootstrap-table.js" %}"></script>
+    <script src="{% static "js/table.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <!-- Latest compiled and minified Locales -->
+    <script src="{% static "js/bootstrap-table-zh-CN.js" %}"></script>
+{% endblock %}
+{% block data %}
+    <div class="panel-body" style="padding-bottom:0px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label col-sm-1" for="txt_search_name">姓名</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_search_name">
+                        </div>
+                        <label class="control-label col-sm-1" for="txt_search_from_user">推荐人</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_search_from_user">
+                        </div>
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="toolbar" class="btn-group">
+{#            <button id="btn_add" type="button" class="btn btn-default">#}
+{#                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增#}
+{#            </button>#}
+{#            <button id="btn_edit" type="button" class="btn btn-default">#}
+{#                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改#}
+{#            </button>#}
+{#            <button id="btn_delete" type="button" class="btn btn-default">#}
+{#                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除#}
+{#            </button>#}
+            <input type="button" value="新增简历" id="btn_add" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>
+            <input type="button" value="修改状态" id="btn_edit" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>
+            <input type="button" value="删除记录" id="btn_delete" data-toggle="modal" data-target="#deleteUserModal" class="btn btn-primary" onclick="deleteUser()"></input>
+        </div>
+
+        <table id="get_data"></table>
+
+    </div>
+<!-- 新增用户的模态框，在修改用户中将获取一行的值放入input中，改变一些参数继续使用 -->
+		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>新增简历</h3>
+					</div>
+					<div class="modal-body">
+                        <form id="editForm" method="post" class="form-horizontal">
+							<div class="form-group" style="display:none">
+								<label for="editId" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-7">
+									<input type="id" name="id"   class="form-control" id="editId" placeholder="ID" />
+								</div>
+								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">姓名</label>
+								<div class="col-sm-7">
+									<input type="name" name="name" class="form-control" id="editAccount" placeholder="姓名"/>
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="conf" class="btn btn-default" onclick="addUser()">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<div class="modal fade" id="Tip" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>提示</h3>
+            </div>
+            <div class="modal-body" align="center">
+                <h4 id="tipContent">新增成功</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div><div class="modal fade" id="updateEnd" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>提示</h3>
+            </div>
+            <div class="modal-body" align="center">
+                <h4 id="al">修改成功</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
