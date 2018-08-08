@@ -51,12 +51,15 @@ def get_data(request):
 def upload(request):
     if request.method == 'POST':
         obj = request.FILES.get('file')
-        if os.path.exists(os.path.join(FILESPATH, obj.name)):
-            os.remove(os.path.join(FILESPATH, obj.name))
-        with open(os.path.join(FILESPATH, obj.name), 'wb') as f:
+        filename = obj.name
+        num = 1
+        while os.path.exists(os.path.join(FILESPATH, filename)):
+            filename = "{}_{}.{}".format(obj.name.split(".")[0], num, obj.name.split(".")[1])
+            num += 1
+        with open(os.path.join(FILESPATH, filename), 'wb') as f:
             for chunk in obj.chunks():
                 f.write(chunk)
-        return HttpResponse(json.dumps({"status": 0, "lstOrderImport": "2"}))
+        return HttpResponse(json.dumps({"state": "success", "lstOrderImport": "2"}))
 
 
 @csrf_exempt
@@ -80,8 +83,16 @@ def addNotes(request):
         print(request.POST)
         name = request.POST.get("name", "")
         from_user = request.POST.get("from_user", "")
-        filename = request.POST.get("filename", "")
-        print(name, from_user, filename)
+        objname = request.POST.get("filename", "")
+        filename = objname
+        num = 1
+        while os.path.exists(os.path.join(FILESPATH, filename)):
+            filename = "{}_{}.{}".format(objname.split(".")[0], num, objname.split(".")[1])
+            num += 1
+        if num == 2:
+            filename = objname
+        else:
+            filename = "{}_{}.{}".format(objname.split(".")[0], num-2, objname.split(".")[1])
         if not name:
             return HttpResponse(json.dumps({"state": "error", 'detail': "姓名不能为空"}))
         if not from_user:
@@ -101,9 +112,14 @@ def addNotes(request):
 def delNotes(request):
     if request.method == 'POST':
         uid = request.POST.get('uid', "")
+        filename = request.POST.get('notes', "")
         if uid:
             p = nt.objects.get(id=uid)
             p.delete()
+        if filename:
+            filename = filename.split(">")[1].split("<")[0]
+            if os.path.exists(os.path.join(FILESPATH, filename)):
+                os.remove(os.path.join(FILESPATH, filename))
         return HttpResponse(json.dumps({"state": "success"}))
 
 

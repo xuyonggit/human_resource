@@ -95,19 +95,18 @@ var FileInput = function () {
             var filename = data.files[0].name;
             document.getElementById(editName).value = filename;
             var data = data.response.lstOrderImport;
+            console.log(data);
             if (data == undefined) {
-                toastr.error('文件格式类型不正确');
+                swal('上传失败！', '文件格式类型不正确', 'error');
                 return;
             }
         })
     };
     return oFile;
 };
-//
+// 添加用户
 function addUser() {
     var param = $("#addForm").serializeArray();
-    console.log(param);
-    debugger;
     $("#conf").attr("onclick", "addUser()");
     $.ajax({
         url: "/biog/addNotes/",
@@ -118,7 +117,8 @@ function addUser() {
             if (data.state == "success") {
                 swal("新增成功！", "用户新增成功", "success");
                 $("#addUserModal").modal('hide');
-                $("#get_data").bootstrapTable('refresh')
+                $("#get_data").bootstrapTable('refresh');
+                resetAddModal()
             } else {
                 document.getElementById("al").innerText = data.detail;
             }
@@ -183,13 +183,12 @@ function updateUser(){
 function delUser(){
     var rows = $("#get_data").bootstrapTable('getSelections');
     if (rows.length <= 0) {
-        swal(
-		    "请选择有效数据",
-            "数据缺失",
-            "error"
-        );
+        swal("请选择有效数据","数据缺失","error");
         return
-    }
+    }else if (rows.length > 1) {
+        swal("请选择有效数据", "数据太多", "error");
+        return
+    };
     var ctxt = "确认要删除选择的数据吗？";
     swal({
         title: "Are you sure?",
@@ -198,42 +197,32 @@ function delUser(){
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: '是的, 删了它！',
+        cancelButtonText: '不, 老子后悔了！',
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger',
         buttonsStyling: false
         }).then(function(isConfirm) {
         if (isConfirm === true) {
             $.ajax({
-                  type: "POST",
-                  url: "/biog/delNotes/",
-                  data: rows[0],
-                  datatype: 'json',
-                  success: function (data) {
-                      var state = data.state;
-                      if (state == "success") {
-                          swal(
-                              'Deleted!',
-                              '该用户数据已删除！',
-                              'success'
-                          );
-                          $("#get_data").bootstrapTable("refresh")
-                      }else {
-                          swal(
-		                    "数据删除失败",
-                            "未知错误",
-                            "error"
-                            )
-                      }
-                  },
-                  error: function () {
-                      swal(
-		                "数据删除失败",
-                        "未知错误",
-                        "error"
-                    )
-                  }
+                type: "POST",
+                url: "/biog/delNotes/",
+                data: rows[0],
+                dataType:"json",
+                success: function (data) {
+                     var state = data.state;
+                     console.log(data);
+                     console.log(state);
+                     if (state == "success") {
+                         swal('Deleted!', '该用户数据已删除！','success');
+                         $("#get_data").bootstrapTable("refresh")
+                     }else {
+                         swal("数据删除失败","未知错误","error")
+                     }
+                },
+                error: function () {
+                    swal("数据删除失败","未知错误","error")
+                }
             })
         } else {
           swal(
