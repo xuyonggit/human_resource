@@ -21,5 +21,9 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^notes/', notes, name='notes'),
     url(r'^upload/', upload),
+    url(r'^updateNotes/', updateNotes),
+    url(r'^addNotes/', addNotes, name='add'),
+    url(r'^delNotes/', delNotes),
+    url(r'^filelist/(?P<fn>\w+.\w+)', filelist, name="filelist"),
     url(r'^show_alldata_intable/', get_data, name="get_data"),
 ]

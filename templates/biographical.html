@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="{% static "js/bootstrap-table.js" %}"></script>
+    <script src="{% static "js/fileinput.js" %}"></script>
+    <script src="{% static "js/pieif.js" %}"></script>
     <script src="{% static "js/table.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <!-- Latest compiled and minified Locales -->
@@ -32,32 +34,24 @@
             </div>
         </div>
         <div id="toolbar" class="btn-group">
-{#            <button id="btn_add" type="button" class="btn btn-default">#}
-{#                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增#}
-{#            </button>#}
-{#            <button id="btn_edit" type="button" class="btn btn-default">#}
-{#                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改#}
-{#            </button>#}
-{#            <button id="btn_delete" type="button" class="btn btn-default">#}
-{#                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除#}
-{#            </button>#}
-            <input type="button" value="新增简历" id="btn_add" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>
-            <input type="button" value="修改状态" id="btn_edit" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>
-            <input type="button" value="删除记录" id="btn_delete" data-toggle="modal" data-target="#deleteUserModal" class="btn btn-primary" onclick="deleteUser()"></input>
+            <input type="button" value="新增简历" id="btn_add" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary">
+            <input type="button" value="修改状态" id="btn_edit" class="btn btn-primary" onclick="editUser()">
+            <input type="button" value="删除记录" id="btn_delete" class="btn btn-primary" onclick="delUser()">
         </div>
 
         <table id="get_data"></table>
 
     </div>
 <!-- 新增用户的模态框，在修改用户中将获取一行的值放入input中，改变一些参数继续使用 -->
-		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h3>新增简历</h3>
 					</div>
 					<div class="modal-body">
-                        <form id="editForm" method="post" class="form-horizontal">
+                        <form id="addForm" method="post" class="form-horizontal">
+                            {% csrf_token %}
 							<div class="form-group" style="display:none">
 								<label for="editId" class="col-sm-2 control-label">ID</label>
 								<div class="col-sm-7">
@@ -72,43 +66,87 @@
 								</div>
 								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
 							</div>
+                            <div class="form-group">
+								<label for="inputfromuser" class="col-sm-2 control-label">推荐人</label>
+								<div class="col-sm-7">
+									<input type="fromuser" name="from_user" class="form-control" id="editAccount" placeholder="推荐人"/>
+								</div>
+								<label id="errorfromuser" for="inputfromuser" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">简历</label>
+								<div class="col-sm-7">
+                                    <input id="txt_file" type="file" name="file" class="file-loading" data-preview-file-type="text">
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="inputAccount" class="col-sm-2 control-label">简历名</label>
+								<div class="col-sm-7">
+                                        <input id="filename" readonly="readonly" type="filename" name="filename" class="file-loading" data-preview-file-type="text">
+								</div>
+								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" id="conf" class="btn btn-default" onclick="addUser()">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="reset()">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 修改用户的模态框 -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>修改记录</h3>
+					</div>
+					<div class="modal-body">
+						<form id="editForm" method="post" class="form-horizontal">
+							<div class="form-group" style="display:none">
+								<label for="editId" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-7">
+									<input type="id" name="id"   class="form-control" id="editId" placeholder="ID" />
+								</div>
+								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputName" class="col-sm-2 control-label">姓名</label>
+								<div class="col-sm-7">
+									<input type="name" name="name" class="form-control" id="editName" placeholder="姓名"/>
+								</div>
+								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="inputFrom_user" class="col-sm-2 control-label">推荐人</label>
+								<div class="col-sm-7">
+									<input type="fromuser" name="from_user" class="form-control" id="editFrom_user" placeholder="推荐人"/>
+								</div>
+								<label id="errorfrom_user" for="inputFrom_user" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="inputNotes" class="col-sm-2 control-label">简历</label>
+								<div class="col-sm-7">
+                                    <input id="txt_file_2" type="file" name="file" class="file-loading" data-preview-file-type="text">
+								</div>
+								<label id="errorNotes" for="inputNotes" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="editFilename" class="col-sm-2 control-label">简历名</label>
+								<div class="col-sm-7">
+                                        <input id="editNotes" readonly="readonly" type="filename" name="filename" class="file-loading" data-preview-file-type="text">
+								</div>
+								<label id="errorAccount" for="editFilename" class="col-sm-3 control-label"></label>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="conf" class="btn btn-default" onclick="updateUser()">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>
 			</div>
 		</div>
-
-<div class="modal fade" id="Tip" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>提示</h3>
-            </div>
-            <div class="modal-body" align="center">
-                <h4 id="tipContent">新增成功</h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div><div class="modal fade" id="updateEnd" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>提示</h3>
-            </div>
-            <div class="modal-body" align="center">
-                <h4 id="al">修改成功</h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
