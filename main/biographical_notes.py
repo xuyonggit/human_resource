@@ -70,9 +70,16 @@ def updateNotes(request):
         from_user = request.POST.get('from_user', "")
         filename = request.POST.get('filename', "")
         source_data = nt.objects.get(id=uid)
+        filename_old  = source_data.notes
+        if filename == filename_old:
+            pass
+        else:
+            # 执行简历文件替换
+            if os.path.exists(os.path.join(FILESPATH, filename_old)):
+                os.remove(os.path.join(FILESPATH, filename_old))
+            source_data.notes = filename
         source_data.name = name
         source_data.from_user = from_user
-        source_data.notes = filename
         source_data.save()
         return HttpResponse(json.dumps({"state": "success"}))
 
