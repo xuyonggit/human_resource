@@ -7,6 +7,10 @@ from human_source.settings import FILESPATH
 import os
 import json
 
+# 创建简历附件目录
+if not os.path.exists(FILESPATH):
+    os.mkdir(FILESPATH)
+
 
 def index(request):
     return render(request, "Index.html")
