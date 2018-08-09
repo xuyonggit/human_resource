@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from django.http import FileResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import notes as nt
+from .models import tb_from_user
 from human_source.settings import FILESPATH
 import os
 import json
@@ -88,6 +89,7 @@ def updateNotes(request):
         return HttpResponse(json.dumps({"state": "success"}))
 
 
+# 新增记录
 @csrf_exempt
 def addNotes(request):
     if request.method == 'POST':
@@ -96,6 +98,14 @@ def addNotes(request):
         from_user = request.POST.get("from_user", "")
         objname = request.POST.get("filename", "")
         filename = objname
+        # 添加数据是创建推荐人数据
+        tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
+        if not tmp_data_from_user:
+            tb_from_user.objects.create(
+                username=from_user,
+                recommend_count=1
+            )
+        # 文件重名则重命名
         num = 1
         while os.path.exists(os.path.join(FILESPATH, filename)):
             filename = "{}_{}.{}".format(objname.split(".")[0], num, objname.split(".")[1])

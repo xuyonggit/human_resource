@@ -22,10 +22,11 @@ var TableInit = function(){
             striped: true,                       //是否显示行间隔色
             sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
             showColumns: true,
+            showRefresh: true,                  // 线上刷新按钮
             minimumCountColumns: 2,
             clickToSelect: true,                //是否启用点击选中行
             queryParams: oTableInit.queryParams,    //传递参数（*）
-            sortable: false,                     //是否启用排序
+            sortable: true,                     //是否启用排序
             pagination: true,                   //是否显示分页（*）
             pageNumber: 1,                       //初始化加载第一页，默认第一页
             pageSize: 10,                       //每页的记录行数（*）
@@ -39,7 +40,8 @@ var TableInit = function(){
                 {field: 'name', title: '姓名', sortable: true},
                 {field: 'from_user', title: '推荐人', sortable: true},
                 {field: 'notes', title: '简历', sortable: true},
-                {field: 'uid', title: '识别码', sortable: false},
+                {field: 'status', title: '状态', sortable: true},
+                {field: 'uid', title: '识别码', sortable: false, visible: false},
             ]
         });
     };

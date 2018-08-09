@@ -1,5 +1,44 @@
 {% extends "base.html" %}
 {% load static %}
+{% block style %}
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+{% endblock %}
 {% block data %}
-    <img src="{% static "image/t1.jpg" %}" height="100%" width="70%">
+    <div class="container" style="width: 97.5%">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="jumbotron well">
+				<h1>
+					公告：
+				</h1>
+				<p>
+					大吉大利，今晚吃鸡
+				</p>
+
+			</div>
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="tabbable" id="tabs-379230">
+						<ul class="nav nav-tabs">
+							<li>
+								 <a href="#panel-456888" data-toggle="tab">微信赞助</a>
+							</li>
+							<li class="active">
+								 <a href="#panel-639840" data-toggle="tab">支付宝赞助</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane" id="panel-456888">
+								<img width="10%" height="10%" src="{% static "image/微信收款码.jpg" %}" />
+							</div>
+							<div class="tab-pane active" id="panel-639840">
+								<img width="10%" height="10%" src="{% static "image/支付宝收款码.jpg" %}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

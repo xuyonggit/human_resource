@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block style %}
+    {% load static %}
+{% endblock %}
+{% block data %}
+    <div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<h3 class="text-center">
+				该功能将在近期上线，请耐心等候，详情请前往官网订阅通知，请点击<button id="test1" type="button" class="btn btn-lg btn-primary success">按钮</button>
+                查看官网地址
+                <script type="text/javascript">
+                    $(function () {
+                        $("#test1").click(function () {
+                            swal({
+                              title: '哈哈',
+                              text: '然而，我并没有官网。。。',
+                              imageUrl: '{% static "image/笑哭.jpg" %}',
+                              imageWidth: 300,
+                              imageHeight: 300,
+                              animation: false
+                            })
+                        })
+                    })
+                </script>
+			</h3>
+		</div>
+	</div>
+</div>
+{% endblock %}

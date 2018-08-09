@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from main.biographical_notes import *
+import main.reputation as rep
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -35,4 +36,6 @@ urlpatterns = [
     # 全局数据
     url(r'^show_alldata_intable/', get_data, name="get_data"),
     # --------------------- END ------------------------
+    # 信用中心
+    url(r'^reputation/', rep.index, name="reputation"),
 ]

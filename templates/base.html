@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>人才管理</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/mystyle.css" %}">
     <link rel="stylesheet" href="{% static "css/sweetalert2.css" %}">
 	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="{% url "index" %}">人才管理</a>
@@ -21,7 +21,7 @@
 	<div>
 		<ul class="nav navbar-nav">
 			<li><a href="{% url "notes" %}">简历库</a></li>
-{#			<li><a href="{% url "notes" %}">简历库2</a></li>#}
+			<li><a href="{% url "reputation" %}">信用中心</a></li>
 		</ul>
 	</div>
 	</div>
