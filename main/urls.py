@@ -19,11 +19,20 @@ from main.biographical_notes import *
 
 urlpatterns = [
     url(r'^$', index, name='index'),
+    # ------------------- 简历库 ---------------------
+    # 简历库首页
     url(r'^notes/', notes, name='notes'),
+    # 上传简历附件
     url(r'^upload/', upload),
+    # 更新数据
     url(r'^updateNotes/', updateNotes),
+    # 添加简历记录
     url(r'^addNotes/', addNotes, name='add'),
+    # 删除简历记录
     url(r'^delNotes/', delNotes),
+    # 下载简历附件列表
     url(r'^filelist/(?P<fn>\w+.\w+)', filelist, name="filelist"),
+    # 全局数据
     url(r'^show_alldata_intable/', get_data, name="get_data"),
+    # --------------------- END ------------------------
 ]
