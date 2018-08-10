@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 {% block style %}
     {% load static %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="{% static "js/bootstrap-table.js" %}"></script>
-    <script src="{% static "js/fileinput.js" %}"></script>
-    <script src="{% static "js/pieif.js" %}"></script>
     <script src="{% static "js/table.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <!-- Latest compiled and minified Locales -->
-    <script src="{% static "js/bootstrap-table-zh-CN.js" %}"></script>
+    {# bootstrap Table #}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
 {% endblock %}
 {% block data %}
     <div class="panel-body" style="padding-bottom:0px;">

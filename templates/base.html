@@ -4,10 +4,16 @@
 <head>
 	<meta charset="utf-8">
 	<title>人才管理</title>
-	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    {# fileInput #}
+    <script src="{% static "js/fileinput.js" %}"></script>
+    <script src="{% static "js/pieif.js" %}"></script>
+    {# bootstrap #}
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {# myself style #}
     <link rel="stylesheet" href="{% static "css/mystyle.css" %}">
     <link rel="stylesheet" href="{% static "css/sweetalert2.css" %}">
-	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script src="{% static "js/sweetalert2.js" %}"></script>
     {% block style %}{% endblock %}
 </head>
