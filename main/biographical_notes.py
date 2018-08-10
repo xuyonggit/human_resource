@@ -143,7 +143,7 @@ def addNotes(request):
         from_user = request.POST.get("from_user", "")
         objname = request.POST.get("filename", "")
         position = request.POST.get("position", "")
-        position_level = request.POST.get("position_level", "")
+        position_level = request.POST.get("level", "")
         filename = objname
         # 添加数据是创建推荐人数据
         tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
