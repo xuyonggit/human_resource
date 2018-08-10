@@ -42,7 +42,7 @@ var TableInit = function(){
                 {field: 'position_level', title: '级别', sortable: true},
                 {field: 'from_user', title: '推荐人', sortable: true},
                 {field: 'notes', title: '简历', sortable: true},
-                {field: 'status', title: '状态', sortable: false},
+                {field: 'status', title: '状态', sortable: false, width: "16%"},
                 {field: 'uid', title: '识别码', sortable: false, visible: false},
             ]
         });
