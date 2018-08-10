@@ -39,9 +39,10 @@ var TableInit = function(){
                 {field: 'id', title: 'ID', sortable: true},
                 {field: 'name', title: '姓名', sortable: true},
                 {field: 'position', title: '职位', sortable: true},
+                {field: 'position_level', title: '级别', sortable: true},
                 {field: 'from_user', title: '推荐人', sortable: true},
                 {field: 'notes', title: '简历', sortable: true},
-                {field: 'status', title: '状态', sortable: true},
+                {field: 'status', title: '状态', sortable: false},
                 {field: 'uid', title: '识别码', sortable: false, visible: false},
             ]
         });
@@ -149,6 +150,7 @@ function editUser(){
 	    $('#editFrom_user').val(row.from_user);
 	    $('#editNotes').val(fn);
 	    $('#editPosition').val(row.position);
+	    $('#editLevel').val(row.position_level);
 	    $("#editUserModal").modal("show");
 	}
 }

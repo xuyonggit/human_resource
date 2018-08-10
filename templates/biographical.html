@@ -70,6 +70,13 @@
 								<label id="errorposition" for="inputposition" class="col-sm-3 control-label"></label>
 							</div>
                             <div class="form-group">
+								<label for="inputlevel" class="col-sm-2 control-label">级别</label>
+								<div class="col-sm-7">
+									<input type="level" name="level" class="form-control" id="editlevel" placeholder="级别"/>
+								</div>
+								<label id="errorlevel" for="inputlevel" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
 								<label for="inputfromuser" class="col-sm-2 control-label">推荐人</label>
 								<div class="col-sm-7">
 									<input type="fromuser" name="from_user" class="form-control" id="editAccount" placeholder="推荐人"/>
@@ -130,6 +137,13 @@
 								<label id="errorposition" for="inputposition" class="col-sm-3 control-label"></label>
 							</div>
                             <div class="form-group">
+								<label for="inputlevel" class="col-sm-2 control-label">级别</label>
+								<div class="col-sm-7">
+									<input type="level" name="level" class="form-control" id="editLevel" placeholder="级别"/>
+								</div>
+								<label id="errorlevel" for="inputlevel" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
 								<label for="inputFrom_user" class="col-sm-2 control-label">推荐人</label>
 								<div class="col-sm-7">
 									<input type="fromuser" name="from_user" class="form-control" id="editFrom_user" placeholder="推荐人"/>
@@ -149,6 +163,21 @@
                                         <input id="editNotes" readonly="readonly" type="filename" name="filename" class="file-loading" data-preview-file-type="text">
 								</div>
 								<label id="errorAccount" for="editFilename" class="col-sm-3 control-label"></label>
+							</div>
+                            <div class="form-group">
+								<label for="inputStatus" class="col-sm-2 control-label">状态</label>
+								<div class="col-sm-7">
+									<input type="Status" name="status" list="Status_list" class="form-control" id="editStatus" placeholder="状态"/>
+                                    <datalist id="Status_list">
+                                        <option value="一面"></option>
+                                        <option value="二面"></option>
+                                        <option value="冬眠"></option>
+                                        <option value="入职"></option>
+                                        <option value="转正"></option>
+                                        <option value="合作"></option>
+                                    </datalist>
+								</div>
+								<label id="errorStatus" for="inputStatus" class="col-sm-3 control-label"></label>
 							</div>
 						</form>
 					</div>

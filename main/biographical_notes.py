@@ -7,6 +7,8 @@ from .models import tb_from_user
 from human_source.settings import FILESPATH
 import os
 import json
+from datetime import date
+
 
 # 创建简历附件目录
 if not os.path.exists(FILESPATH):
@@ -46,6 +48,39 @@ def get_data(request):
             dic1['from_user'] = d['from_user']
             dic1['notes'] = "<a href=\"/biog/filelist/{}\">{}</a>".format(d['notes'], d['notes'])
             dic1['position'] = d['position']
+            dic1['position_level'] = d['position_level']
+            # 状态处理
+            status_list = ['提交简历', '一面', '二面', '冬眠', '入职', ['转正', '合作']]
+            status = d['status']
+            if status in status_list:
+                status_num = int((status_list.index(status) + 1) / len(status_list) * 100)
+                status_color = "info"
+                dic1['status'] = """
+                <div class="progress progress-striped active" style="margin-bottom:0">
+                    <div class="progress-bar progress-bar-{}" role="progressbar"
+                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                         style="width: {}%;"<p>{}</p>>
+                    </div>
+                </div>""".format(status_color, status_num, status)
+            elif status in status_list[-1]:
+                status_num = 100
+                status_color = "success"
+                dic1['status'] = """
+                <div class="progress" style="margin-bottom:0">
+                    <div class="progress-bar progress-bar-{}" role="progressbar"
+                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                         style="width: {}%;"<p>{}</p>>
+                </div>""".format(status_color, status_num, status)
+            else:
+                status_num = -1
+                status_color = "danger"
+                dic1['status'] = """
+                <div class="progress" style="margin-bottom:0">
+                    <div class="progress-bar progress-bar-{}" role="progressbar"
+                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                         style="width: {}%;"<p>{}</p>>    
+                    </div>
+                </div>""".format(status_color, status_num, status)
 
             List_data.append(dic1)
             num += 1
@@ -76,6 +111,8 @@ def updateNotes(request):
         from_user = request.POST.get('from_user', "")
         filename = request.POST.get('filename', "")
         position = request.POST.get("position", "")
+        posttion_level = request.POST.get("level", "")
+        status = request.POST.get("status", "")
         source_data = nt.objects.get(id=uid)
         filename_old = source_data.notes
         if filename == filename_old:
@@ -88,6 +125,11 @@ def updateNotes(request):
         source_data.name = name
         source_data.from_user = from_user
         source_data.position = position
+        # change status
+        if status:
+            source_data.status = status
+        # change level
+        source_data.position_level = posttion_level
         source_data.save()
         return HttpResponse(json.dumps({"state": "success"}))
 

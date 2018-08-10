@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime, date
 
 
 # Create your models here.
@@ -8,6 +9,10 @@ class notes(models.Model):
     from_user = models.CharField(max_length=255, default=None)      # 推荐人
     notes = models.CharField(max_length=255, default=None)          # 简历链接
     position = models.CharField(max_length=255, default=None)       # 职位
+    position_level = models.CharField(max_length=255, default=None)       # 级别
+    create_date = models.DateField(auto_now_add=True)                   # 创建日期，默认now
+    modify_date = models.DateField(auto_now=True)                   # 最新修改日期，默认now
+    status = models.CharField(max_length=20, default="提交简历")    # 状态
 
 
 class tb_from_user(models.Model):
