@@ -145,12 +145,14 @@ function editUser(){
 	} else{
 	    var row = rows[0];
 	    var fn = row.notes.split(">")[1].split("<")[0];
+	    var pl = row.status.split(">")[2].split("<")[0];
 	    $('#editId').val(row.id);
 	    $('#editName').val(row.name);
 	    $('#editFrom_user').val(row.from_user);
 	    $('#editNotes').val(fn);
 	    $('#editPosition').val(row.position);
 	    $('#editLevel').val(row.position_level);
+	    $('#editStatus').val(pl);
 	    $("#editUserModal").modal("show");
 	}
 }

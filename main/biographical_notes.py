@@ -72,7 +72,7 @@ def get_data(request):
                          style="width: {}%;"<p>{}</p>>
                 </div>""".format(status_color, status_num, status)
             else:
-                status_num = -1
+                status_num = 100
                 status_color = "danger"
                 dic1['status'] = """
                 <div class="progress" style="margin-bottom:0">
