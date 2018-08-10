@@ -38,6 +38,7 @@ var TableInit = function(){
             columns: [{checkbox: true},
                 {field: 'id', title: 'ID', sortable: true},
                 {field: 'name', title: '姓名', sortable: true},
+                {field: 'position', title: '职位', sortable: true},
                 {field: 'from_user', title: '推荐人', sortable: true},
                 {field: 'notes', title: '简历', sortable: true},
                 {field: 'status', title: '状态', sortable: true},
@@ -50,7 +51,7 @@ var TableInit = function(){
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             name: $("#txt_search_name").val(),
-            from_user: $("#txt_search_from_user").val()
+            from_user: $("#txt_search_from_user").val(),
         };
         return temp;
     };
@@ -147,6 +148,7 @@ function editUser(){
 	    $('#editName').val(row.name);
 	    $('#editFrom_user').val(row.from_user);
 	    $('#editNotes').val(fn);
+	    $('#editPosition').val(row.position);
 	    $("#editUserModal").modal("show");
 	}
 }

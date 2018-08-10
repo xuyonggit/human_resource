@@ -7,6 +7,7 @@ class notes(models.Model):
     name = models.CharField(max_length=255, default=None)   # 姓名
     from_user = models.CharField(max_length=255, default=None)      # 推荐人
     notes = models.CharField(max_length=255, default=None)          # 简历链接
+    position = models.CharField(max_length=255, default=None)       # 职位
 
 
 class tb_from_user(models.Model):

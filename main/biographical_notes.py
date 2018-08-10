@@ -45,6 +45,7 @@ def get_data(request):
             dic1['name'] = d['name']
             dic1['from_user'] = d['from_user']
             dic1['notes'] = "<a href=\"/biog/filelist/{}\">{}</a>".format(d['notes'], d['notes'])
+            dic1['position'] = d['position']
 
             List_data.append(dic1)
             num += 1
@@ -74,8 +75,9 @@ def updateNotes(request):
         name = request.POST.get('name', "")
         from_user = request.POST.get('from_user', "")
         filename = request.POST.get('filename', "")
+        position = request.POST.get("position", "")
         source_data = nt.objects.get(id=uid)
-        filename_old  = source_data.notes
+        filename_old = source_data.notes
         if filename == filename_old:
             pass
         else:
@@ -85,6 +87,7 @@ def updateNotes(request):
             source_data.notes = filename
         source_data.name = name
         source_data.from_user = from_user
+        source_data.position = position
         source_data.save()
         return HttpResponse(json.dumps({"state": "success"}))
 
@@ -97,6 +100,7 @@ def addNotes(request):
         name = request.POST.get("name", "")
         from_user = request.POST.get("from_user", "")
         objname = request.POST.get("filename", "")
+        position = request.POST.get("position", "")
         filename = objname
         # 添加数据是创建推荐人数据
         tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
@@ -120,11 +124,12 @@ def addNotes(request):
             return HttpResponse(json.dumps({"state": "error", 'detail': "推荐人不能为空"}))
         if not filename:
             return HttpResponse(json.dumps({"state": "error", 'detail': "简历不能为空"}))
-
+        # 创建简历数据
         nt.objects.create(
             name=name,
             from_user=from_user,
-            notes=filename
+            notes=filename,
+            position=position
         )
         return HttpResponse(json.dumps({"state": "success"}))
 
