@@ -53,6 +53,9 @@ var TableInit = function(){
             offset: params.offset,  //页码
             name: $("#txt_search_name").val(),
             from_user: $("#txt_search_from_user").val(),
+            position: $("#txt_search_position").val(),
+            position_level: $("#txt_search_position_level").val(),
+            status: $("#txt_search_status").val(),
         };
         return temp;
     };
@@ -83,7 +86,7 @@ var FileInput = function () {
         control.fileinput({
             language: 'zh', //设置语言
             uploadUrl: uploadUrl, //上传的地址
-            allowedFileExtensions: ['jpg', 'gif', 'png', 'docx', 'pdf', 'doc'],//接收的文件后缀
+            allowedFileExtensions: ['jpg', 'jpeg', 'gif', 'png', 'docx', 'pdf', 'doc'],//接收的文件后缀
             showUpload: true, //是否显示上传按钮
             showCaption: false,//是否显示标题
             browseClass: "btn btn-primary", //按钮样式

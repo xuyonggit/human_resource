@@ -29,6 +29,9 @@ def get_data(request):
     if request.method == 'POST':
         name = request.POST.get("name", "")
         from_user = request.POST.get("from_user", "")
+        position = request.POST.get("position", "")
+        position_level = request.POST.get("position_level", "")
+        status1 = request.POST.get("status", "")
         print(request.POST)
         if name and not from_user:
             res_data = nt.objects.filter(name=name)
@@ -47,11 +50,29 @@ def get_data(request):
             dic1['name'] = d['name']
             dic1['from_user'] = d['from_user']
             dic1['notes'] = "<a href=\"/biog/filelist/{}\">{}</a>".format(d['notes'], d['notes'])
-            dic1['position'] = d['position']
-            dic1['position_level'] = d['position_level']
+            if position:
+                if position == d['position']:
+                    dic1['position'] = d['position']
+                else:
+                    continue
+            else:
+                dic1['position'] = d['position']
+            if position_level:
+                if position_level == d['position_level']:
+                    dic1['position_level'] = d['position_level']
+                else:
+                    continue
+            else:
+                dic1['position_level'] = d['position_level']
             # 状态处理
             status_list = ['提交简历', '一面', '二面', '冬眠', '入职', ['转正', '合作']]
-            status = d['status']
+            if status1:
+                if status1 == d['status']:
+                    status = d['status']
+                else:
+                    continue
+            else:
+                status = d['status']
             if status in status_list:
                 status_num = int((status_list.index(status) + 1) / len(status_list) * 100)
                 status_color = "info"
