@@ -202,7 +202,7 @@ def addNotes(request):
         position_level = request.POST.get("level", "")
         if not position_level:
             return HttpResponse(json.dumps({"state": "error", 'info': '职位级别不能为空'}))
-        position_level_num = request.POST.get("position_level_num", 1)
+        position_level_num = request.POST.get("basenum", 1)
         filename = objname
         # 添加数据是创建推荐人数据
         tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
