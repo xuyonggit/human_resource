@@ -4,6 +4,8 @@
     <script src="{% static "js/table.js" %}"></script>
     {# bootstrap Table #}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="{% static "css/jquery-editable-select.min.css" %}">
+    <script src="{% static "js/jquery-editable-select.min.js" %}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
 {% endblock %}
@@ -83,9 +85,26 @@
 							</div>
                             <div class="form-group">
 								<label for="inputlevel" class="col-sm-2 control-label">级别</label>
-								<div class="col-sm-7">
-									<input type="level" name="level" class="form-control" id="editlevel" placeholder="级别"/>
+								<div class="col-sm-7" style="width:24%">
+                                    <select class="form-control" name="level" id="editlevel">
+                                        {% for levels_dic in levels %}
+                                            {% if levels_dic.position_level == '初级' %}
+                                            <option value="{{ levels_dic.position_level }}" selected="selected">{{ levels_dic.position_level }}</option>
+                                            {% else %}
+                                            <option value="{{ levels_dic.position_level }}">{{ levels_dic.position_level }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <script type="text/javascript">
+                                        $('#editlevel').editableSelect({
+                                            effects: 'fade'
+                                        });
+                                    </script>
 								</div>
+                                <label for="inputlevel" class="col-sm-2 control-label" style="text-align:center;width:10%">基数</label>
+                                <div class="col-sm-7" style="width:24%">
+                                    <input type="basenum" name="basenum" class="form-control" id="editBasenum" placeholder="级别基数"/>
+                                </div>
 								<label id="errorlevel" for="inputlevel" class="col-sm-3 control-label"></label>
 							</div>
                             <div class="form-group">
@@ -113,7 +132,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" id="conf" class="btn btn-default" onclick="addUser()">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="reset()">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>
 			</div>
@@ -150,11 +169,24 @@
 							</div>
                             <div class="form-group">
 								<label for="inputlevel" class="col-sm-2 control-label">级别</label>
-								<div class="col-sm-7">
-									<input type="level" name="level" class="form-control" id="editLevel" placeholder="级别"/>
+								<div class="col-sm-7" style="width:24%">
+                                    <select class="form-control" name="level" id="editLevel">
+                                        {% for levels_dic in levels %}
+                                            <option value="{{ levels_dic.position_level }}">{{ levels_dic.position_level }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <script type="text/javascript">
+                                        $('#editLevel').editableSelect({
+                                            effects: 'slide'
+                                        });
+                                    </script>
 								</div>
+                                <label for="inputlevel" class="col-sm-2 control-label" style="text-align:center;width:10%">基数</label>
+                                <div class="col-sm-7" style="width:24%">
+                                    <input type="basenum" name="basenum" class="form-control" id="editBasenum1" placeholder="级别基数"/>
+                                </div>
 								<label id="errorlevel" for="inputlevel" class="col-sm-3 control-label"></label>
-							</div>
+                            </div>
                             <div class="form-group">
 								<label for="inputFrom_user" class="col-sm-2 control-label">推荐人</label>
 								<div class="col-sm-7">
@@ -179,15 +211,14 @@
                             <div class="form-group">
 								<label for="inputStatus" class="col-sm-2 control-label">状态</label>
 								<div class="col-sm-7">
-									<input type="Status" name="status" list="Status_list" class="form-control" id="editStatus" placeholder="状态"/>
-                                    <datalist id="Status_list">
-                                        <option value="一面"></option>
-                                        <option value="二面"></option>
-                                        <option value="冬眠"></option>
-                                        <option value="入职"></option>
-                                        <option value="转正"></option>
-                                        <option value="合作"></option>
-                                    </datalist>
+                                    <select class="form-control" name="status" id="editStatus">
+                                        <option value="一面">一面</option>
+                                        <option value="二面">二面</option>
+                                        <option value="冬眠">冬眠</option>
+                                        <option value="入职">入职</option>
+                                        <option value="转正">转正</option>
+                                        <option value="合作">合作</option>
+                                    </select>
 								</div>
 								<label id="errorStatus" for="inputStatus" class="col-sm-3 control-label"></label>
 							</div>

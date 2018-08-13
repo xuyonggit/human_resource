@@ -40,6 +40,7 @@ var TableInit = function(){
                 {field: 'name', title: '姓名', sortable: true},
                 {field: 'position', title: '职位', sortable: true},
                 {field: 'position_level', title: '级别', sortable: true},
+                {field: 'position_level_num', title: '基数', sortable: true},
                 {field: 'from_user', title: '推荐人', sortable: true},
                 {field: 'notes', title: '简历', sortable: true},
                 {field: 'status', title: '状态', sortable: false, width: "16%"},
@@ -127,7 +128,8 @@ function addUser() {
                 $("#get_data").bootstrapTable('refresh');
                 resetAddModal()
             } else {
-                document.getElementById("al").innerText = data.detail;
+                var txt = data.info;
+                swal("新增失败！", txt, "error");
             }
         },
         error: function () {
@@ -155,6 +157,7 @@ function editUser(){
 	    $('#editNotes').val(fn);
 	    $('#editPosition').val(row.position);
 	    $('#editLevel').val(row.position_level);
+	    $('#editBasenum1').val(row.position_level_num);
 	    $('#editStatus').val(pl);
 	    $("#editUserModal").modal("show");
 	}
@@ -244,3 +247,43 @@ function delUser(){
         }
 })
 }
+$(document).ready(function () {
+    // 填充级别基数add
+    $('#editBasenum').val(1);
+    $("#editlevel").change(function () {
+        var level = $("#editlevel").val();
+        var data = {"level": level};
+        $('#editBasenum').val(1);
+        $.ajax({
+            url: "/biog/get_level_basenum/",
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.state == 'success') {
+                    $('#editBasenum').val(data.num);
+                }
+            }
+        })
+    });
+    // 填充级别基数edit
+    $("#editLevel").change(function () {
+        var level = $("#editLevel").val();
+        var data = {"level": level};
+        $('#editBasenum1').val(1);
+        $.ajax({
+            url: "/biog/get_level_basenum/",
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.state == 'success') {
+                    $('#editBasenum1').val(data.num);
+                }
+            }
+        })
+    })
+});
+

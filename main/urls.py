@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^notes/', notes, name='notes'),
     # 上传简历附件
     url(r'^upload/', upload),
+    # 获取级别基数
+    url(r'^get_level_basenum/', get_level_basenum),
     # 更新数据
     url(r'^updateNotes/', updateNotes),
     # 添加简历记录
