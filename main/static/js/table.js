@@ -151,6 +151,7 @@ function editUser(){
 	    var row = rows[0];
 	    var fn = row.notes.split(">")[1].split("<")[0];
 	    var pl = row.status.split(">")[2].split("<")[0];
+	    console.log(pl);
 	    $('#editId').val(row.id);
 	    $('#editName').val(row.name);
 	    $('#editFrom_user').val(row.from_user);

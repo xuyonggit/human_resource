@@ -212,13 +212,15 @@
 								<label for="inputStatus" class="col-sm-2 control-label">状态</label>
 								<div class="col-sm-7">
                                     <select class="form-control" name="status" id="editStatus">
-                                        <option value="一面">一面</option>
-                                        <option value="二面">二面</option>
-                                        <option value="冬眠">冬眠</option>
-                                        <option value="入职">入职</option>
-                                        <option value="转正">转正</option>
-                                        <option value="合作">合作</option>
+                                        {% for status in states %}
+                                        <option value="{{ status }}">{{ status }}</option>
+                                        {% endfor %}
                                     </select>
+                                    <script type="text/javascript">
+                                        $('#editStatus').editableSelect({
+                                            effects: 'slide'
+                                        });
+                                    </script>
 								</div>
 								<label id="errorStatus" for="inputStatus" class="col-sm-3 control-label"></label>
 							</div>

@@ -16,6 +16,7 @@ if not os.path.exists(FILESPATH):
 # 状态列表
 status_list = ['提交简历', '一面', '二面', '冬眠', '入职', '合作', ['转正']]
 
+
 def index(request):
     return render(request, "Index.html")
 
@@ -23,7 +24,15 @@ def index(request):
 @csrf_exempt
 def notes(request):
     levels = base_template.objects.values('position_level')
-    return render(request, 'biographical.html', {'levels': levels})
+    states = []
+    for i in status_list:
+        if type(i) == list:
+            for s in i:
+                states.append(s)
+        else:
+            states.append(i)
+    print(states)
+    return render(request, 'biographical.html', {'levels': levels, 'states': states})
 
 
 @csrf_exempt
@@ -149,6 +158,7 @@ def updateNotes(request):
         filename = request.POST.get('filename', "")
         position = request.POST.get("position", "")
         posttion_level = request.POST.get("level", "")
+        position_level_num = request.POST.get("basenum", 1)
         status = request.POST.get("status", "")
         source_data = nt.objects.get(id=uid)
         filename_old = source_data.notes
@@ -162,6 +172,7 @@ def updateNotes(request):
         source_data.name = name
         source_data.from_user = from_user
         source_data.position = position
+        source_data.base_num = position_level_num
         # change status
         if status:
             source_data.status = status
@@ -191,6 +202,7 @@ def addNotes(request):
         position_level = request.POST.get("level", "")
         if not position_level:
             return HttpResponse(json.dumps({"state": "error", 'info': '职位级别不能为空'}))
+        position_level_num = request.POST.get("position_level_num", 1)
         filename = objname
         # 添加数据是创建推荐人数据
         tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
@@ -220,7 +232,8 @@ def addNotes(request):
             from_user=from_user,
             notes=filename,
             position=position,
-            position_level=position_level
+            position_level=position_level,
+            base_num=position_level_num
         )
         return HttpResponse(json.dumps({"state": "success"}))
 
