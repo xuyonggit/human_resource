@@ -40,4 +40,5 @@ urlpatterns = [
     # --------------------- END ------------------------
     # 信用中心
     url(r'^reputation/', rep.index, name="reputation"),
+    url(r'^getFromUserInfo/', rep.getFromUserInfo, name="getuserinfo")
 ]

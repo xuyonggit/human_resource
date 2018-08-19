@@ -14,7 +14,7 @@ from datetime import date
 if not os.path.exists(FILESPATH):
     os.mkdir(FILESPATH)
 # 状态列表
-status_list = ['提交简历', '一面', '二面', '冬眠', '入职', '合作', ['转正']]
+status_list = ['提交简历', '一面', '二面', '冬眠', '入职', '合作', '转正']
 
 
 def index(request):
@@ -31,7 +31,6 @@ def notes(request):
                 states.append(s)
         else:
             states.append(i)
-    print(states)
     return render(request, 'biographical.html', {'levels': levels, 'states': states})
 
 
@@ -149,6 +148,7 @@ def upload(request):
         return HttpResponse(json.dumps({"state": "success", "lstOrderImport": "2"}))
 
 
+# 更改记录
 @csrf_exempt
 def updateNotes(request):
     if request.method == 'POST':
@@ -185,26 +185,39 @@ def updateNotes(request):
 # 新增记录
 @csrf_exempt
 def addNotes(request):
+    """
+    :param request:name from_user objname position position_level position_level_num
+                    {"name": "xuyong", "from_user": "lalala", "objname": "file.docx", "position": "老板",
+                     "position_level": "总经理", "position_level_num": 10
+                    }
+    :return:
+    """
     if request.method == 'POST':
         print(request.POST)
+        # 姓名
         name = request.POST.get("name", "")
         if not name:
             return HttpResponse(json.dumps({"state": "error", 'info': '姓名不能为空'}))
+        # 推荐人
         from_user = request.POST.get("from_user", "")
         if not from_user:
             return HttpResponse(json.dumps({"state": "error", 'info': '推荐人不能为空'}))
+        # 简历文件名
         objname = request.POST.get("filename", "")
         if not objname:
             return HttpResponse(json.dumps({"state": "error", 'info': '简历不能为空'}))
+        # 职位
         position = request.POST.get("position", "")
         if not position:
             return HttpResponse(json.dumps({"state": "error", 'info': '职位不能为空'}))
+        # 职位级别
         position_level = request.POST.get("level", "")
         if not position_level:
             return HttpResponse(json.dumps({"state": "error", 'info': '职位级别不能为空'}))
+        # 基数
         position_level_num = request.POST.get("basenum", 1)
         filename = objname
-        # 添加数据是创建推荐人数据
+        # 添加数据时创建推荐人数据
         tmp_data_from_user = tb_from_user.objects.filter(username=from_user)
         if not tmp_data_from_user:
             tb_from_user.objects.create(
