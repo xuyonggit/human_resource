@@ -18,11 +18,14 @@ def index(request):
 @csrf_exempt
 def getFromUserInfo(request):
     if request.method == 'POST':
-        info_dic = {}
-        userdata = tb_from_user.objects.all().values()
-        for d in userdata:
-            info_dic[d['username']] = {}
-            info_dic[d['username']]['reputation'] = d['reputation']
-            info_dic[d['username']]['recommend_count'] = d['recommend_count']
+        info_list = []
+        userdata = tb_from_user.objects.all().order_by("-reputation").values()
+        for d in range(len(userdata)):
+            info_dic = {}
+            info_dic['id'] = d + 1
+            info_dic['username'] = userdata[d]['username']
+            info_dic['reputation'] = userdata[d]['reputation']
+            info_dic['recommend_count'] = userdata[d]['recommend_count']
+            info_list.append(info_dic)
 
-        return HttpResponse(json.dumps(info_dic))
+        return HttpResponse(json.dumps(info_list))

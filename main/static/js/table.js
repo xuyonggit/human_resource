@@ -32,6 +32,7 @@ var TableInit = function(){
             pageSize: 10,                       //每页的记录行数（*）
             pageList: [10, 15, 20, 25],        //可供选择的每页的行数（*）
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+            singleSelect: true,                 // 禁止多选
             showExport: true,
             exportDataType: 'all',
             exportTypes: ['csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],  //导出文件类型
