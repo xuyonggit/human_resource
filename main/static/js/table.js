@@ -184,7 +184,14 @@ function updateUser(){
                     'success'
                 );
 				$("#get_data").bootstrapTable('refresh');
-			}
+			}else{
+			    $("#editUserModal").modal("hide");
+				swal(
+				    '数据修改失败',
+                    data.info,
+                    'error'
+                );
+            }
 		},
 		error:function(data){
 			swal(
