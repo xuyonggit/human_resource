@@ -174,18 +174,23 @@ def updateNotes(request):
         source_data.position = position
         source_data.base_num = position_level_num
         # change status
-        if status:
+        source_user = tb_from_user.objects.get(username=from_user)
+        if status in status_list:
             if source_data.status != status:
                 if status_list.index(source_data.status) < status_list.index(status):
                     # 计算信用分
                     reputation_num = (int(status_list.index(status)) + 1) * int(position_level_num)
-                    source_user = tb_from_user.objects.get(username=from_user)
                     source_user.reputation += int(reputation_num)
                     source_user.save()
                     # 修改状态
                     source_data.status = status
                 else:
                     return HttpResponse(json.dumps({"state": "error", 'info': '人家已经【{}】过了哦，状态不可回退！'.format(status)}))
+        else:
+            # 计算信用分
+            # 淘汰之后，信用分降低一个基数分
+            source_user.reputation -= int(position_level_num)
+            source_user.save()
         # change level
         source_data.position_level = posttion_level
         source_data.save()
