@@ -21,6 +21,7 @@ class tb_from_user(models.Model):
     username = models.CharField('用户名', max_length=255, default=None)   # 用户名
     recommend_count = models.IntegerField('已推荐人数', default=0)   # 已推荐数量
     reputation = models.IntegerField('信誉分数', default=100,)   # 信誉分数
+    gold_bean = models.FloatField('金豆数', default=0)         # 金豆数量
 
 
 class base_template(models.Model):

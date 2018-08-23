@@ -52,7 +52,7 @@ def get_data(request):
         position = request.POST.get("position", "")
         position_level = request.POST.get("position_level", "")
         status1 = request.POST.get("status", "")
-        print(request.POST)
+        print("查询条件：{}".format(dict(request.POST)))
         if name and not from_user:
             res_data = nt.objects.filter(name=name)
         elif not name and from_user:
@@ -152,6 +152,7 @@ def upload(request):
 @csrf_exempt
 def updateNotes(request):
     if request.method == 'POST':
+        print("更新数据：{}".format(dict(request.POST)))
         uid = request.POST.get('id', "")
         name = request.POST.get('name', "")
         from_user = request.POST.get('from_user', "")
@@ -174,6 +175,9 @@ def updateNotes(request):
         source_data.position = position
         source_data.base_num = position_level_num
         # change status
+        # 旧状态不在状态列表中，则修改失败
+        if source_data.status not in status_list:
+            return HttpResponse(json.dumps({"state": "error", 'info': '【{}】当前处于特殊状态，无法更改'.format(source_data.name)}))
         source_user = tb_from_user.objects.get(username=from_user)
         if status in status_list:
             if source_data.status != status:
@@ -187,6 +191,8 @@ def updateNotes(request):
                 else:
                     return HttpResponse(json.dumps({"state": "error", 'info': '人家已经【{}】过了哦，状态不可回退！'.format(status)}))
         else:
+            # 修改状态
+            source_data.status = status
             # 计算信用分
             # 淘汰之后，信用分降低一个基数分
             source_user.reputation -= int(position_level_num)

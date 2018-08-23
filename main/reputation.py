@@ -20,6 +20,7 @@ def getFromUserInfo(request):
     if request.method == 'POST':
         info_list = []
         userdata = tb_from_user.objects.all().order_by("-reputation").values()
+        print("获取信用排行: {}".format(list(userdata)))
         for d in range(len(userdata)):
             info_dic = {}
             info_dic['id'] = d + 1

@@ -34,7 +34,7 @@ urlpatterns = [
     # 删除简历记录
     url(r'^delNotes/', delNotes),
     # 下载简历附件列表
-    url(r'^filelist/(?P<fn>\w+.\w+)', filelist, name="filelist"),
+    url(r'^filelist/(?P<fn>.*)', filelist, name="filelist"),
     # 全局数据
     url(r'^show_alldata_intable/', get_data, name="get_data"),
     # --------------------- END ------------------------
