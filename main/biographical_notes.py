@@ -53,7 +53,7 @@ def get_data(request):
         position = request.POST.get("position", "")
         position_level = request.POST.get("position_level", "")
         status1 = request.POST.get("status", "")
-        print("查询条件：{}".format(dict(request.POST)))
+        print("Query data ;{}".format(dict(request.POST)))
         if name and not from_user:
             res_data = nt.objects.filter(name=name)
         elif not name and from_user:
@@ -153,7 +153,7 @@ def upload(request):
 @csrf_exempt
 def updateNotes(request):
     if request.method == 'POST':
-        print("更新数据：{}".format(dict(request.POST)))
+        print("update data : {}".format(dict(request.POST)))
         uid = request.POST.get('id', "")
         name = request.POST.get('name', "")
         from_user = request.POST.get('from_user', "")
